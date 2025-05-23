@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Radiolab",
+    "url": "https://feeds.simplecast.com/EmVW7VGp",
+    "link": "https://radiolab.org/",
+    "description": "Radiolab is on a curiosity bender. We ask deep questions and use investigative journalism to get the answers. A given episode might whirl you through science, legal history, and into the home of someone halfway across the world. The show is known for innovative sound design, smashing information into music.",
+    "keywords": "science, culture, documentary, history"
+  },
+  {
+    "title": "Hard Fork",
+    "url": "https://feeds.simplecast.com/l2i9YnTd",
+    "link": "https://www.nytimes.com/column/hard-fork",
+    "description": "Hard Fork is a show about the future that’s already here. Each week, journalists Kevin Roose and Casey Newton explore and make sense of the latest in the rapidly changing world of tech.",
+    "keywords": "technology"
+  },
+  {
+    "title": "TED Radio Hour",
+    "url": "https://feeds.npr.org/510298/podcast.xml",
+    "link": "https://www.npr.org/podcasts/510298/ted-radio-hour",
+    "description": "Exploring the biggest questions of our time with the help of the world's greatest thinkers. Host Manoush Zomorodi inspires us to learn more about the world, our communities, and most importantly, ourselves.",
+    "keywords": "technology, science, culture"
+  }
+]
