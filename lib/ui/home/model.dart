@@ -137,7 +137,9 @@ class HomeViewModel extends ChangeNotifier {
   Future updateRetentionPeriod(int period) async {
     if (_settings?.id != null) {
       _settings!.retentionPeriod = period;
-      await _feedRepo.updateSettings(_settings!);
+      await _feedRepo.updateSettings(_settings!.id!, {
+        "retention_period": period,
+      });
       _settings = await _feedRepo.getSettings();
       _episodes = await _feedRepo.getEpisodes(period: period);
       notifyListeners();
@@ -147,7 +149,9 @@ class HomeViewModel extends ChangeNotifier {
   Future updateSearchEngine(String url) async {
     if (_settings?.id != null) {
       _settings!.searchEngineUrl = url;
-      await _feedRepo.updateSettings(_settings!);
+      await _feedRepo.updateSettings(_settings!.id!, {
+        "search_engine_url": url,
+      });
       _settings = await _feedRepo.getSettings();
       notifyListeners();
     }

@@ -73,10 +73,14 @@ class FeedViewModel extends ChangeNotifier {
   }
 
   Future updatePeriod(int period) async {
-    if (_feed?.channel != null && _subscribed) {
+    if (_feed?.channel.id != null && _subscribed) {
       // _log.fine('updatePeriod:$period');
-      _feed!.channel.period = period;
-      await _feedRepo.updateChannel(_feed!.channel);
+      final res = await _feedRepo.updateChannel(_feed!.channel.id!, {
+        "period": period,
+      });
+      if (res == 1) {
+        _feed!.channel.period = period;
+      }
       notifyListeners();
     }
   }

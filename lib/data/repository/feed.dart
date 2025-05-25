@@ -159,12 +159,11 @@ class FeedRepository {
   Future<bool> refreshChannel(Channel channel) async {
     _log.fine('refreshChannel: ${channel.id}');
     final feed = await fetchFeed(channel.url);
-    if (feed != null) {
+    if (channel.id != null && feed != null) {
       // set channel id
       feed.channel.id = channel.id;
       // mark checked
-      feed.channel.checked = DateTime.now();
-      await updateChannel(feed.channel);
+      await updateChannel(channel.id!, {"checked": DateTime.now()});
       // reference date
       final refDate = DateTime.now().subtract(Duration(days: maxRetentionDays));
       for (final episode in feed.episodes) {
@@ -257,10 +256,8 @@ class FeedRepository {
     }
   }
 
-  Future updateChannel(Channel channel) async {
+  Future<int> updateChannel(int channelId, Map<String, Object> data) async {
     try {
-      final data = channel.toSqlite();
-      final channelId = data.remove('id');
       final sets = data.keys.map((e) => '$e = ?').join(',');
       return await _dbSrv.update("UPDATE channels SET $sets WHERE id = ?", [
         ...data.values,
@@ -392,12 +389,10 @@ class FeedRepository {
     }
   }
 
-  Future updateEpisode(Episode episode) async {
+  Future<int> updateEpisode(int episodeId, Map<String, Object?> data) async {
     try {
-      final data = episode.toSqlite();
-      final episodeId = data.remove('id');
       final sets = data.keys.map((e) => '$e = ?').join(',');
-      await _dbSrv.update("UPDATE episodes SET $sets WHERE id = ?", [
+      return await _dbSrv.update("UPDATE episodes SET $sets WHERE id = ?", [
         ...data.values,
         episodeId,
       ]);
@@ -476,10 +471,8 @@ class FeedRepository {
     }
   }
 
-  Future updateSettings(Settings settings) async {
+  Future updateSettings(int settingsId, Map<String, Object?> data) async {
     try {
-      final data = settings.toSqlite();
-      final settingsId = data.remove('id');
       final sets = data.keys.map((e) => '$e = ?').join(',');
       await _dbSrv.update("UPDATE settings SET $sets WHERE id = ?", [
         ...data.values,
@@ -585,7 +578,7 @@ class FeedRepository {
       )) {
         // download successful
         episode.downloaded = true;
-        await updateEpisode(episode);
+        await updateEpisode(episode.id!, {"downloaded": true});
         return true;
       }
     }
