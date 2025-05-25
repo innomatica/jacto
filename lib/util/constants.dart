@@ -1,5 +1,5 @@
 // app info
-const appName = 'Podcast';
+const appName = 'Podrss';
 const appVersion = '1.0.1+2';
 const appId = 'com.innomatic.jacto';
 
