@@ -1,6 +1,6 @@
 // app info
 const appName = 'Podcast';
-const appVersion = '1.0.0+1';
+const appVersion = '1.0.1+2';
 const appId = 'com.innomatic.jacto';
 
 const developerWebsite = 'https://innomatic.ca';
