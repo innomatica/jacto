@@ -1,6 +1,6 @@
 // app info
-const appName = 'Podrss';
-const appVersion = '1.0.1+2';
+const appName = 'RssPod';
+const appVersion = '1.0.2+3';
 const appId = 'com.innomatic.jacto';
 
 const developerWebsite = 'https://innomatic.ca';
