@@ -111,7 +111,9 @@ class HomeViewModel extends ChangeNotifier {
           await _feedRepo.setPlayed(episode.guid);
         }
       }
-      _episodes = await _feedRepo.getEpisodes();
+      _episodes = await _feedRepo.getEpisodes(
+        period: _settings?.retentionPeriod ?? defaultRetentionDays,
+      );
       notifyListeners();
     }
   }
@@ -123,14 +125,18 @@ class HomeViewModel extends ChangeNotifier {
       } else {
         await _feedRepo.setLiked(episode.guid);
       }
-      _episodes = await _feedRepo.getEpisodes();
+      _episodes = await _feedRepo.getEpisodes(
+        period: _settings?.retentionPeriod ?? defaultRetentionDays,
+      );
       notifyListeners();
     }
   }
 
   Future downloadEpisode(Episode episode) async {
     await _feedRepo.downloadEpisode(episode);
-    _episodes = await _feedRepo.getEpisodes();
+    _episodes = await _feedRepo.getEpisodes(
+      period: _settings?.retentionPeriod ?? defaultRetentionDays,
+    );
     notifyListeners();
   }
 
@@ -140,9 +146,7 @@ class HomeViewModel extends ChangeNotifier {
       await _feedRepo.updateSettings(_settings!.id!, {
         "retention_period": period,
       });
-      _settings = await _feedRepo.getSettings();
-      _episodes = await _feedRepo.getEpisodes(period: period);
-      notifyListeners();
+      await load();
     }
   }
 
