@@ -581,7 +581,8 @@ class FeedRepository {
       )) {
         // download successful
         episode.downloaded = true;
-        await updateEpisode(episode.id!, {"downloaded": true});
+        // note downloaded field type is integer
+        await updateEpisode(episode.id!, {"downloaded": 1});
         return true;
       }
     }
