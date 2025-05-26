@@ -172,10 +172,10 @@ class _HomeViewState extends State<HomeView> {
                   IconButton(
                     icon: Icon(
                       Icons.download_rounded,
-                      color: downloaded ? null : buttonColor,
+                      color: downloaded || played ? null : buttonColor,
                     ),
                     onPressed:
-                        downloaded
+                        downloaded || played
                             ? null
                             : () async {
                               ScaffoldMessenger.of(context).showSnackBar(
