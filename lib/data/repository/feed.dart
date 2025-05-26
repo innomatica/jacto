@@ -163,7 +163,9 @@ class FeedRepository {
       // set channel id
       feed.channel.id = channel.id;
       // mark checked
-      await updateChannel(channel.id!, {"checked": DateTime.now()});
+      await updateChannel(channel.id!, {
+        "checked": DateTime.now().toIso8601String(),
+      });
       // reference date
       final refDate = DateTime.now().subtract(Duration(days: maxRetentionDays));
       for (final episode in feed.episodes) {
@@ -257,6 +259,7 @@ class FeedRepository {
   }
 
   Future<int> updateChannel(int channelId, Map<String, Object> data) async {
+    // _log.fine('updateChannel: $data');
     try {
       final sets = data.keys.map((e) => '$e = ?').join(',');
       return await _dbSrv.update("UPDATE channels SET $sets WHERE id = ?", [
