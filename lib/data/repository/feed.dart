@@ -414,9 +414,25 @@ class FeedRepository {
 
   Future setPlayed(String guid) async {
     try {
-      await _dbSrv.update("UPDATE episodes SET played = TRUE WHERE guid = ?", [
+      // delete dowloaded file if exists
+      final row = await _dbSrv.query("SELECT * FROM episodes WHERE guid = ?", [
         guid,
       ]);
+      if (row != null) {
+        final episode = Episode.fromSqlite(row);
+        final file = await _stSrv.getFile(
+          episode.channelId,
+          episode.mediaFname,
+        );
+        if (file?.existsSync() == true) {
+          await _stSrv.deleteFile(episode.channelId!, episode.mediaFname);
+        }
+      }
+      // set played to TRUE as well as downloaded to FALSE
+      await _dbSrv.update(
+        "UPDATE episodes SET played = TRUE, downloaded = FALSE WHERE guid = ?",
+        [guid],
+      );
     } on Exception {
       rethrow;
     }
