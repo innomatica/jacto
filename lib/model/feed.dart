@@ -76,8 +76,11 @@ class Feed {
     final episodes = <Episode>[];
     if (itemElems != null) {
       for (final element in itemElems) {
-        // guid must exist and be unique
-        final guid = element.getElement('guid')?.innerText;
+        // guid must exist and should be unique
+        final guid =
+            element.getElement('guid')?.innerText ??
+            element.getElement('link')?.innerText ??
+            element.getElement('enclosure')?.getAttribute('url');
         if (guid == null) continue;
         final episode = Episode(
           guid: guid,
