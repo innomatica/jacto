@@ -7,13 +7,6 @@
     "keywords": "comedy"
   },
   {
-    "title": "",
-    "url": "",
-    "link": "",
-    "description": "",
-    "keywords": ""
-  },
-  {
     "title": "Hard Fork",
     "url": "https://feeds.simplecast.com/l2i9YnTd",
     "link": "https://www.nytimes.com/column/hard-fork",
@@ -49,6 +42,13 @@
     "keywords": "technology, science, society & culture, philosophy"
   },
   {
+    "title": "MIT Technology Review Narrated",
+    "url": "https://feeds.megaphone.fm/inmachineswetrust",
+    "link": "https://www.technologyreview.com/",
+    "description": "Welcome to MIT Technology Review Narrated, the home for the very best of our journalism in audio. Each week we will share one of our most ambitious stories, from print and online, narrated for us by real voice actors. Expect big themes, thought-provoking topics, and sharp analysis, all backed by our trusted reporting.",
+    "keywords": "technology, news, science"
+  },
+  {
     "title": "Radiolab",
     "url": "https://feeds.simplecast.com/EmVW7VGp",
     "link": "https://radiolab.org/",
@@ -61,6 +61,13 @@
     "link": "https://www.wnycstudios.org/podcasts/science-friday",
     "description": "Covering the outer reaches of space to the tiniest microbes in our bodies, Science Friday is the source for entertaining and educational stories about science, technology, and other cool stuff.",
     "keywords": "science, natural sciences"
+  },
+  {
+    "title": "Sean Carroll's Mindscape: Science, Society, Philosophy, Culture, Arts, and Ideas",
+    "url": "https://rss.art19.com/sean-carrolls-mindscape",
+    "link": "https://www.preposterousuniverse.com/podcast/",
+    "description": "Ever wanted to know how music affects your brain, what quantum mechanics really is, or how black holes work? Do you wonder why you get emotional each time you see a certain movie, or how on earth video games are designed? Then you’ve come to the right place. Each week, Sean Carroll will host conversations with some of the most interesting thinkers in the world. From neuroscientists and engineers to authors and television producers, Sean and his guests talk about the biggest ideas in science, philosophy, culture and much more.",
+    "keywords": "science, physics, society & culture, philosophy"
   },
   {
     "title": "Super Data Science: ML & AI Podcast with Jon Krohn",
