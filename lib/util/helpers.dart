@@ -32,3 +32,8 @@ String daysAgo(DateTime? date) {
 String yymmdd(DateTime? dt, {String fallback = ''}) {
   return dt?.toIso8601String().split('T').first ?? fallback;
 }
+
+String removeTags(String? input) {
+  final exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+  return input?.replaceAll(exp, '') ?? '';
+}

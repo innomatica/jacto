@@ -137,7 +137,7 @@ class FeedView extends StatelessWidget {
           ],
         ),
         SizedBox(height: 8),
-        Text(data.channel.description ?? ''),
+        Text(removeTags(data.channel.description)),
         // Text(data.channel.language ?? 'language null'),
         Divider(),
         // ...data.episodes.map((e) => Text(e.title ?? '')),
