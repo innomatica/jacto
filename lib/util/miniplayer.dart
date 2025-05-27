@@ -97,7 +97,7 @@ class ModalPlayer extends StatelessWidget {
     bool ignoreStream = false;
     double playerPos = 0.0;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -112,18 +112,16 @@ class ModalPlayer extends StatelessWidget {
                           final myIndex = snapshot.data!.sequence.indexOf(e);
                           return ListTile(
                             dense: true,
+                            visualDensity: VisualDensity.compact,
+                            contentPadding: EdgeInsets.only(left: 8),
                             selectedColor:
                                 Theme.of(context).colorScheme.tertiary,
-                            visualDensity: VisualDensity.compact,
                             selected: snapshot.data!.currentSource == e,
                             title: Text(
                               (e.tag as MediaItem).title,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                              ),
+                              style: TextStyle(fontSize: 16),
                             ),
                             onTap: () async {
                               if (myIndex != snapshot.data!.currentIndex) {
@@ -137,7 +135,7 @@ class ModalPlayer extends StatelessWidget {
                               context.go(
                                 Uri(
                                   path: '/episode',
-                                  queryParameters: {'id': e.tag.id},
+                                  queryParameters: {'guid': e.tag.id},
                                 ).toString(),
                               );
                             },
@@ -166,20 +164,31 @@ class ModalPlayer extends StatelessWidget {
                   }
                   return Column(
                     children: [
-                      Slider(
-                        value: playerPos,
-                        max: player.duration?.inSeconds.toDouble() ?? 100.0,
-                        padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                        onChangeStart: (value) {
-                          setState(() => ignoreStream = true);
-                        },
-                        onChanged: (value) {
-                          setState(() => playerPos = value);
-                        },
-                        onChangeEnd: (value) async {
-                          await player.seek(Duration(seconds: value.toInt()));
-                          ignoreStream = false;
-                        },
+                      // position slider
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 8.0,
+                        ),
+                        child: Slider(
+                          value: playerPos,
+                          max: player.duration?.inSeconds.toDouble() ?? 100.0,
+                          padding: EdgeInsets.only(
+                            top: 16,
+                            left: 16,
+                            right: 16,
+                          ),
+                          onChangeStart: (value) {
+                            setState(() => ignoreStream = true);
+                          },
+                          onChanged: (value) {
+                            setState(() => playerPos = value);
+                          },
+                          onChangeEnd: (value) async {
+                            await player.seek(Duration(seconds: value.toInt()));
+                            ignoreStream = false;
+                          },
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -201,12 +210,12 @@ class ModalPlayer extends StatelessWidget {
             children: [
               // to the beginning
               IconButton(
-                icon: Icon(Icons.skip_previous_rounded, size: 24.0),
+                icon: Icon(Icons.skip_previous_rounded, size: 26.0),
                 onPressed: () async => await player.seek(Duration.zero),
               ),
               // rewind 30 sec
               IconButton(
-                icon: Icon(Icons.replay_30_rounded, size: 24.0),
+                icon: Icon(Icons.replay_30_rounded, size: 26.0),
                 onPressed: () async {
                   final newPos = player.position - Duration(seconds: 30);
                   await player.seek(
@@ -223,7 +232,7 @@ class ModalPlayer extends StatelessWidget {
                       snapshot.data == true
                           ? Icons.pause_rounded
                           : Icons.play_arrow_rounded,
-                      size: 36.0,
+                      size: 40.0,
                     ),
                     onPressed: () async {
                       player.playing
@@ -235,7 +244,7 @@ class ModalPlayer extends StatelessWidget {
               ),
               // forward 30
               IconButton(
-                icon: Icon(Icons.forward_30_rounded, size: 24.0),
+                icon: Icon(Icons.forward_30_rounded, size: 26.0),
                 onPressed: () async {
                   final newPos = player.position + Duration(seconds: 30);
                   if (player.duration != null && newPos <= player.duration!) {
@@ -244,7 +253,7 @@ class ModalPlayer extends StatelessWidget {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.skip_next_rounded, size: 24.0),
+                icon: Icon(Icons.skip_next_rounded, size: 26.0),
                 onPressed: () async {
                   if (player.duration != null) {
                     await player.seek(player.duration!);
