@@ -19,6 +19,7 @@ class FavoriteViewModel extends ChangeNotifier {
       final decoded = jsonDecode(res.body);
       if (decoded != null && decoded is List) {
         _items = decoded.map((e) => Favorite.fromMap(e)).toList();
+        // _log.fine('items:$_items');
       }
     }
     notifyListeners();

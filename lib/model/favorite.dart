@@ -16,4 +16,15 @@ class Favorite {
       keywords: map['keywords'] as String?,
     );
   }
+
+  @override
+  String toString() {
+    return {
+      "title": title,
+      "url": url,
+      "link": link,
+      "description": description,
+      "keywords": keywords,
+    }.toString();
+  }
 }
