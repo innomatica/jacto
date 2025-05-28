@@ -28,8 +28,6 @@ class HomeViewModel extends ChangeNotifier {
   List<Episode> get downloaded =>
       _episodes.where((e) => e.downloaded == true).toList();
   List<Episode> get liked => _episodes.where((e) => e.liked == true).toList();
-  String? get currentGuid =>
-      (_player.audioSource as IndexedAudioSource?)?.tag.id;
 
   void _init() {
     _player.playerStateStream.listen((event) async {
@@ -103,13 +101,9 @@ class HomeViewModel extends ChangeNotifier {
         await _feedRepo.clearPlayed(episode.guid);
       } else {
         // set
-        if (currentGuid == episode.guid) {
-          // _log.fine('seek to next');
-          await _player.seek(_player.duration);
-        } else {
-          // _log.fine('set played');
-          await _feedRepo.setPlayed(episode.guid);
-        }
+        // _log.fine('set played');
+        await _feedRepo.setPlayed(episode.guid);
+        // }
       }
       _episodes = await _feedRepo.getEpisodes(
         period: _settings?.retentionPeriod ?? defaultRetentionDays,

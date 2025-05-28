@@ -418,6 +418,7 @@ class FeedRepository {
       final row = await _dbSrv.query("SELECT * FROM episodes WHERE guid = ?", [
         guid,
       ]);
+      // _log.fine('row: $row');
       if (row != null) {
         final episode = Episode.fromSqlite(row);
         final file = await _stSrv.getFile(
@@ -433,6 +434,12 @@ class FeedRepository {
         "UPDATE episodes SET played = TRUE, downloaded = FALSE WHERE guid = ?",
         [guid],
       );
+      // remove audio source from sequence
+      final idx = _player.sequence.indexWhere((e) => e.tag.id == guid);
+      // _log.fine('idx:$idx');
+      if (idx >= 0) {
+        _player.removeAudioSourceAt(idx);
+      }
     } on Exception {
       rethrow;
     }
