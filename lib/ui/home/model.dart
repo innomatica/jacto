@@ -34,7 +34,7 @@ class HomeViewModel extends ChangeNotifier {
 
   void _init() {
     _player.playerStateStream.listen((event) async {
-      // _log.fine('playerState: $event');
+      // _log.fine('playerState: ${event.playing} - ${event.processingState}');
       //
       // playing: true / false
       // processingState: idle / loading / buffering /  ready/ completed
@@ -66,12 +66,17 @@ class HomeViewModel extends ChangeNotifier {
 
   Future _handleSequenceStateChange(SequenceState state) async {
     if (_currentSource != state.currentSource) {
-      if (_currentSource?.tag.id != null) {
+      //
+      // set the previous episode played : CAN BE PROBLEMATIC
+      //
+      if (_currentSource?.tag.id != null && state.sequence.length > 1) {
         _log.fine('set played: ${_currentSource?.tag.title}');
         await _feedRepo.setPlayed(_currentSource?.tag.id);
       }
+      //
       _currentSource = state.currentSource;
-      await load();
+      notifyListeners();
+      // await load();
     }
   }
 
