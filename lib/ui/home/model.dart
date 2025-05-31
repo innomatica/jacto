@@ -67,6 +67,7 @@ class HomeViewModel extends ChangeNotifier {
   Future _handleSequenceStateChange(SequenceState state) async {
     if (_currentSource != state.currentSource) {
       if (_currentSource?.tag.id != null) {
+        _log.fine('set played: ${_currentSource?.tag.title}');
         await _feedRepo.setPlayed(_currentSource?.tag.id);
       }
       _currentSource = state.currentSource;
@@ -75,7 +76,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future _handlePlayerStateChange(PlayerState state) async {
-    _log.fine('handlePlayerStateChange');
+    // _log.fine('handlePlayerStateChange');
     final index = _player.currentIndex;
     final sequence = _player.sequence;
     final position = _player.position;
@@ -88,12 +89,12 @@ class HomeViewModel extends ChangeNotifier {
       final source = sequence[index];
       if (duration != null && (position + Duration(seconds: 30) > duration)) {
         // end of the media
-        _log.fine('set played: ${source.tag}');
+        _log.fine('set played: ${source.tag.title}');
         await _feedRepo.setPlayed(source.tag.id);
         await load();
       } else {
         // paused or seek
-        _log.fine('update bookmark: ${source.tag}');
+        _log.fine('update bookmark: ${source.tag.title}');
         await _feedRepo.updateBookmark(source.tag.id, position.inSeconds);
       }
     }

@@ -171,10 +171,12 @@ class _HomeViewState extends State<HomeView> {
                       ? Text(secsToHhMmSs(episode.mediaDuration))
                       : Text(sizeStr(episode.mediaSize)),
                   Expanded(child: SizedBox()),
-                  // download
+                  // download button
                   IconButton(
                     icon: Icon(
-                      Icons.download_rounded,
+                      downloaded
+                          ? Icons.storage_rounded
+                          : Icons.download_rounded,
                       color: downloaded || played ? null : buttonColor,
                     ),
                     onPressed:
