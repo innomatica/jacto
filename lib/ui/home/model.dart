@@ -20,6 +20,7 @@ class HomeViewModel extends ChangeNotifier {
   final _log = Logger('HomeModel');
   List<Episode> _episodes = [];
   Settings? _settings;
+  IndexedAudioSource? _currentSource;
 
   List<Episode> get episodes => _episodes;
   Settings? get settings => _settings;
@@ -28,25 +29,53 @@ class HomeViewModel extends ChangeNotifier {
   List<Episode> get downloaded =>
       _episodes.where((e) => e.downloaded == true).toList();
   List<Episode> get liked => _episodes.where((e) => e.liked == true).toList();
+  IndexedAudioSource? get currentSource => _currentSource;
+  String? get currentId => _currentSource?.tag.id;
 
   void _init() {
     _player.playerStateStream.listen((event) async {
       // _log.fine('playerState: $event');
+      //
+      // playing: true / false
+      // processingState: idle / loading / buffering /  ready/ completed
+      //
       if (event.playing == false &&
           event.processingState == ProcessingState.ready) {
         // paused
-        await _handlePlayerStateChange();
+        await _handlePlayerStateChange(event);
       }
       if (event.playing == true &&
           (event.processingState == ProcessingState.buffering ||
               event.processingState == ProcessingState.completed)) {
         // seek
-        _handlePlayerStateChange();
+        await _handlePlayerStateChange(event);
       }
     });
+    _player.sequenceStateStream.listen((event) async {
+      // _log.fine('sequenceState: $event');
+      //
+      // currentIndex
+      // currentSource
+      // sequence
+      await _handleSequenceStateChange(event);
+    });
+    // _player.currentIndexStream.listen((event) async {
+    //   _log.fine('currentIndex:$event');
+    // });
   }
 
-  Future _handlePlayerStateChange() async {
+  Future _handleSequenceStateChange(SequenceState state) async {
+    if (_currentSource != state.currentSource) {
+      if (_currentSource?.tag.id != null) {
+        await _feedRepo.setPlayed(_currentSource?.tag.id);
+      }
+      _currentSource = state.currentSource;
+      await load();
+    }
+  }
+
+  Future _handlePlayerStateChange(PlayerState state) async {
+    _log.fine('handlePlayerStateChange');
     final index = _player.currentIndex;
     final sequence = _player.sequence;
     final position = _player.position;

@@ -102,8 +102,11 @@ class _HomeViewState extends State<HomeView> {
             final played = episode.played == true;
             final liked = episode.liked == true;
             return ListTile(
+              // selectedColor: Theme.of(context).colorScheme.tertiary,
+              selectedTileColor: Colors.white.withAlpha(10),
               dense: true,
               enabled: !played,
+              selected: episode.guid == widget.model.currentId,
               contentPadding: EdgeInsets.only(left: 8, right: 8, top: 8),
               title: Row(
                 spacing: 8,

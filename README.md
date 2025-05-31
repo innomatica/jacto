@@ -17,6 +17,7 @@ spending mobile data.
 
 - refactor web_view logic using js
 - refactor exception handling for better diagnostics
+- highlight currently playing episode tile
 
 # Issues
 
